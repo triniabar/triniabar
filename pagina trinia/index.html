@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Triniá Tapas · Carta</title>
+<meta name="description" content="Carta de tapas típicas de Sevilla. Buen tapeo, mejor compañía.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --crema:#FAEFD9;
+    --crema-oscuro:#F1E2C2;
+    --granate:#8B0A1A;
+    --granate-oscuro:#5E0611;
+    --tinta:#3A2A22;
+    --suave:#7A6556;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:64px}
+  body{
+    margin:0;background:var(--crema);color:var(--tinta);
+    font-family:"Lora",Georgia,serif;font-size:1.05rem;line-height:1.6;
+  }
+  h1,h2,h3{font-family:"Playfair Display",Georgia,serif;margin:0;color:var(--granate)}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--granate);outline-offset:3px}
+
+  /* Cabecera */
+  header{text-align:center;padding:2rem 1rem 1rem}
+  .logo{width:min(420px,78vw);height:auto;mix-blend-mode:multiply}
+  .lema{font-family:"Kaushan Script",cursive;font-size:1.7rem;color:var(--granate);margin:.2rem 0 0}
+  .sub{color:var(--suave);margin:.3rem 0 0;font-size:.95rem}
+
+  /* Navegación */
+  nav{
+    position:sticky;top:0;z-index:5;background:var(--crema);
+    border-top:2px solid var(--granate);border-bottom:2px solid var(--granate);
+    display:flex;gap:.25rem 1.4rem;justify-content:center;flex-wrap:wrap;
+    padding:.6rem 1rem;margin-top:1rem;
+  }
+  nav a{font-family:"Playfair Display",serif;font-weight:600;text-decoration:none;color:var(--granate);padding:.15rem 0;border-bottom:2px solid transparent}
+  nav a:hover{border-bottom-color:var(--granate)}
+
+  main{max-width:760px;margin:0 auto;padding:1rem 1.25rem 3rem}
+
+  /* Bloque de guisos */
+  .guisos{
+    background:var(--granate);color:var(--crema);border-radius:6px;
+    padding:1.8rem 1.5rem;margin:2rem 0 1rem;text-align:center;
+  }
+  .guisos h2{color:var(--crema);font-size:2rem}
+  .guisos .dias{font-family:"Kaushan Script",cursive;font-size:1.35rem;margin:.2rem 0 1rem}
+  .guisos ul{list-style:none;padding:0;margin:0 auto;max-width:34rem}
+  .guisos li{padding:.55rem 0;border-top:1px solid rgba(250,239,217,.35)}
+  .guisos li:first-child{border-top:0}
+  .guisos li b{font-family:"Playfair Display",serif;font-size:1.15rem}
+  .guisos li span{display:block;font-size:.95rem;opacity:.85}
+  .guisos .nota{margin:1rem 0 0;font-style:italic}
+  .hoy{display:inline-block;background:var(--crema);color:var(--granate);font-weight:500;border-radius:99px;padding:.1rem .8rem;margin-bottom:.6rem;font-size:.9rem}
+
+  /* Carta */
+  section.cat{margin-top:2.6rem}
+  section.cat h2{font-size:1.9rem;text-align:center;margin-bottom:.2rem}
+  section.cat .adorno{display:block;margin:.2rem auto 1.2rem;width:120px;height:2px;background:var(--granate)}
+  .plato{display:grid;grid-template-columns:auto 1fr auto;column-gap:.5rem;align-items:baseline;padding:.45rem 0}
+  .plato h3{font-size:1.1rem;font-weight:600;color:var(--tinta)}
+  .plato .puntos{border-bottom:2px dotted rgba(139,10,26,.35);transform:translateY(-.3rem);min-width:1.5rem}
+  .plato .precio{font-family:"Playfair Display",serif;font-weight:800;color:var(--granate);white-space:nowrap}
+  .plato p{grid-column:1/-1;margin:0;color:var(--suave);font-size:.95rem}
+
+  footer{background:var(--granate-oscuro);color:var(--crema);text-align:center;padding:2rem 1rem 2.4rem}
+  footer .lema{color:var(--crema)}
+  footer p{margin:.3rem 0}
+  footer a{text-underline-offset:3px}
+
+  @media (max-width:480px){
+    body{font-size:1rem}
+    .lema{font-size:1.4rem}
+    .plato{grid-template-columns:1fr auto}
+    .plato .puntos{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <img class="logo" id="logo" src="logo.jpeg" alt="Triniá Tapas">
+  <p class="lema" id="lema"></p>
+  <p class="sub" id="sub"></p>
+</header>
+
+<nav id="nav" aria-label="Secciones de la carta"></nav>
+
+<main>
+  <div id="guisos"></div>
+  <div id="carta"></div>
+</main>
+
+<footer>
+  <p class="lema" id="lema2"></p>
+  <p id="direccion"></p>
+  <p id="horario"></p>
+  <p id="contacto"></p>
+</footer>
+
+<!-- ======================================================================
+     AQUÍ EDITAS TODO.  Solo cambia los textos entre comillas "..."
+     y guarda el archivo. No toques nada por debajo de la línea de abajo.
+     ====================================================================== -->
+<script>
+const NEGOCIO = {
+  nombre: "Triniá Tapas",
+  lema: "Buen tapeo, mejor compañía",
+  subtitulo: "Bar · Tapas · Copas",
+  direccion: "Calle Ejemplo, 12 · Sevilla",
+  horario: "Martes a domingo, de 12:30 a 24:00 · Lunes cerrado",
+  telefono: "600 000 000",
+  instagram: "https://www.instagram.com/taperiatrinia"
+};
+
+/* GUISOS DE FIN DE SEMANA
+   - activo: true para mostrarlos, false para ocultarlos
+   - Cambia los guisos cada semana: copia/borra líneas igual que están. */
+const GUISOS = {
+  activo: true,
+  titulo: "Guisos del fin de semana",
+  dias: "Viernes, sábado y domingo",
+  nota: "Un guiso de regalo con cada caña (hasta fin de existencias).",
+  lista: [
+    { nombre: "Carne con tomate", detalle: "Receta de la abuela" },
+    { nombre: "Albóndigas en salsa de almendras", detalle: "" },
+    { nombre: "Garbanzos con espinacas", detalle: "" },
+    { nombre: "Menudo con garbanzos", detalle: "" }
+  ]
+};
+
+/* CARTA
+   - Cada categoría tiene su lista de platos.
+   - precio: escribe solo el número, p. ej. 3.5  (sale como 3,50 €)
+   - Para ocultar un plato, bórralo o pon agotado: true.
+   - Los precios de abajo son de ejemplo: ponlos tú. */
+const CARTA = [
+  {
+    categoria: "Para picar",
+    platos: [
+      { nombre: "Aceitunas aliñadas", descripcion: "Al estilo de la casa", precio: 2.5 },
+      { nombre: "Papas aliñás", descripcion: "Con atún y cebolleta", precio: 4.5 },
+      { nombre: "Ensaladilla rusa", descripcion: "Con ventresca", precio: 4.5 },
+      { nombre: "Boquerones en vinagre", descripcion: "", precio: 5 },
+      { nombre: "Jamón ibérico", descripcion: "Ración", precio: 16 }
+    ]
+  },
+  {
+    categoria: "Tapas de Sevilla",
+    platos: [
+      { nombre: "Espinacas con garbanzos", descripcion: "Con su toque de comino", precio: 3.5 },
+      { nombre: "Solomillo al whisky", descripcion: "Con ajitos fritos", precio: 3.8 },
+      { nombre: "Carrillada al vino tinto", descripcion: "Melosa, a fuego lento", precio: 4.2 },
+      { nombre: "Montadito de pringá", descripcion: "", precio: 3 },
+      { nombre: "Cola de toro", descripcion: "", precio: 4.5 },
+      { nombre: "Pavía de bacalao", descripcion: "", precio: 3.5 },
+      { nombre: "Flamenquín", descripcion: "Lomo, jamón y queso", precio: 4 }
+    ]
+  },
+  {
+    categoria: "Del mar y la freidora",
+    platos: [
+      { nombre: "Adobo de cazón", descripcion: "", precio: 4.5 },
+      { nombre: "Tortillitas de camarones", descripcion: "", precio: 3.5 },
+      { nombre: "Calamares a la andaluza", descripcion: "", precio: 4.5 },
+      { nombre: "Croquetas de jamón", descripcion: "Cuatro unidades", precio: 4 }
+    ]
+  },
+  {
+    categoria: "Dulces",
+    platos: [
+      { nombre: "Tocino de cielo", descripcion: "", precio: 3.5 },
+      { nombre: "Torrija", descripcion: "Con helado de canela", precio: 4 }
+    ]
+  },
+  {
+    categoria: "Bebidas",
+    platos: [
+      { nombre: "Caña", descripcion: "Incluye guiso en fin de semana", precio: 1.8 },
+      { nombre: "Tinto de verano", descripcion: "", precio: 2.5 },
+      { nombre: "Copa de vino", descripcion: "Pregunta por los vinos del día", precio: 2.8 },
+      { nombre: "Refrescos y agua", descripcion: "", precio: 2 }
+    ]
+  }
+];
+</script>
+
+<!-- ============ A partir de aquí no hace falta tocar nada ============ -->
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const eur = n => n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}) + " €";
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if(cls) e.className = cls; if(text) e.textContent = text; return e; };
+  const slug = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-");
+
+  document.title = NEGOCIO.nombre + " · Carta";
+  $("lema").textContent = NEGOCIO.lema;
+  $("lema2").textContent = NEGOCIO.lema;
+  $("sub").textContent = NEGOCIO.subtitulo;
+  $("direccion").textContent = NEGOCIO.direccion;
+  $("horario").textContent = NEGOCIO.horario;
+  $("logo").alt = NEGOCIO.nombre;
+
+  const c = $("contacto");
+  if (NEGOCIO.telefono){
+    const a = el("a","",NEGOCIO.telefono); a.href = "tel:" + NEGOCIO.telefono.replace(/\s/g,""); c.appendChild(a);
+  }
+  if (NEGOCIO.instagram){
+    if (c.firstChild) c.appendChild(document.createTextNode(" · "));
+    const a = el("a","","Instagram"); a.href = NEGOCIO.instagram; a.target = "_blank"; a.rel = "noopener"; c.appendChild(a);
+  }
+
+  const nav = $("nav");
+  if (GUISOS.activo){
+    const a = el("a","",GUISOS.titulo); a.href = "#guisos-finde"; nav.appendChild(a);
+  }
+  CARTA.forEach(cat => {
+    const a = el("a","",cat.categoria); a.href = "#" + slug(cat.categoria); nav.appendChild(a);
+  });
+
+  if (GUISOS.activo){
+    const box = el("section","guisos"); box.id = "guisos-finde";
+    const d = new Date().getDay();            // 5=viernes, 6=sábado, 0=domingo
+    if (d === 5 || d === 6 || d === 0) box.appendChild(el("span","hoy","¡Hoy hay guisos!"));
+    box.appendChild(el("h2","",GUISOS.titulo));
+    box.appendChild(el("p","dias",GUISOS.dias));
+    const ul = el("ul");
+    GUISOS.lista.forEach(g => {
+      const li = el("li"); li.appendChild(el("b","",g.nombre));
+      if (g.detalle) li.appendChild(el("span","",g.detalle));
+      ul.appendChild(li);
+    });
+    box.appendChild(ul);
+    if (GUISOS.nota) box.appendChild(el("p","nota",GUISOS.nota));
+    $("guisos").appendChild(box);
+  }
+
+  CARTA.forEach(cat => {
+    const s = el("section","cat"); s.id = slug(cat.categoria);
+    s.appendChild(el("h2","",cat.categoria));
+    s.appendChild(el("span","adorno"));
+    cat.platos.forEach(p => {
+      const row = el("div","plato");
+      row.appendChild(el("h3","",p.nombre + (p.agotado ? " (agotado)" : "")));
+      row.appendChild(el("span","puntos"));
+      row.appendChild(el("span","precio", eur(p.precio)));
+      if (p.descripcion) row.appendChild(el("p","",p.descripcion));
+      if (p.agotado) row.style.opacity = ".5";
+      s.appendChild(row);
+    });
+    $("carta").appendChild(s);
+  });
+})();
+</script>
+</body>
+</html>
